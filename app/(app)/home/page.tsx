@@ -7,7 +7,8 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
 import { MapView } from '@/components/map-view'
 import { useApp } from '@/lib/app-context'
-import { mockFrequentRoutes, mockNotifications, mockWeather, mockUser } from '@/lib/mock-data'
+import { useAuth } from '@/lib/auth-context'
+import { mockFrequentRoutes, mockNotifications, mockWeather } from '@/lib/mock-data'
 import { 
   Search, 
   MapPin, 
@@ -31,6 +32,7 @@ const routeIcons: Record<string, React.ElementType> = {
 export default function HomePage() {
   const router = useRouter()
   const { startTrip, nearbyDrivers } = useApp()
+  const { user } = useAuth()
   const [destination, setDestination] = useState('')
   const [showNotifications, setShowNotifications] = useState(false)
   
@@ -56,7 +58,7 @@ export default function HomePage() {
         <div className="flex items-center justify-between mb-4">
           <div>
             <p className="text-sm text-muted-foreground">Hola,</p>
-            <h1 className="text-xl font-bold text-foreground">{mockUser.name.split(' ')[0]}</h1>
+            <h1 className="text-xl font-bold text-foreground">{user?.name.split(' ')[0] || 'Usuario'}</h1>
           </div>
           <div className="flex items-center gap-3">
             {/* Clima */}

@@ -17,8 +17,9 @@ interface AuthContextType {
   user: User | null
   isAuthenticated: boolean
   login: (email: string, password: string) => Promise<boolean>
-  register: (name: string, email: string, password: string) => Promise<boolean>
+  register: (name: string, email: string, phone: string, password: string) => Promise<boolean>
   logout: () => void
+  updateUser: (updates: Partial<User>) => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -36,11 +37,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return false
   }
 
-  const register = async (name: string, email: string, password: string): Promise<boolean> => {
+  const register = async (name: string, email: string, phone: string, password: string): Promise<boolean> => {
     // Simulación de registro
     await new Promise(resolve => setTimeout(resolve, 1000))
     if (name && email && password.length >= 6) {
-      setUser({ ...mockUser, name, email })
+      setUser({ ...mockUser, name, email, phone: phone || mockUser.phone })
       return true
     }
     return false
@@ -50,6 +51,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null)
   }
 
+  const updateUser = (updates: Partial<User>) => {
+    setUser(prev => prev ? { ...prev, ...updates } : null)
+  }
+
   return (
     <AuthContext.Provider value={{
       user,
@@ -57,6 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       login,
       register,
       logout,
+      updateUser,
     }}>
       {children}
     </AuthContext.Provider>

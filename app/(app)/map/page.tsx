@@ -28,7 +28,6 @@ const nearbyStops = [
 
 export default function MapPage() {
   const [showTraffic, setShowTraffic] = useState(true)
-  const [showStops, setShowStops] = useState(true)
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -94,55 +93,62 @@ export default function MapPage() {
       </div>
 
       {/* Panel de paradas cercanas */}
-      {showStops && (
-        <div className="bg-card border-t border-border">
-          <div className="p-4">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="font-semibold text-foreground">Paradas cercanas</h2>
-              <Button variant="ghost" size="sm" onClick={() => setShowStops(false)}>
-                Ocultar
-              </Button>
+      <div className="bg-card border-t border-border">
+        {/* Mini mapa de paradas */}
+        <div className="relative h-32 overflow-hidden">
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: 'url(/images/map-background.jpg)' }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-card" />
+          {/* Marcadores de paradas */}
+          <div className="absolute top-4 left-[20%]">
+            <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center shadow-lg">
+              <Bus className="w-3 h-3 text-accent-foreground" />
             </div>
-            <div className="space-y-2">
-              {nearbyStops.map((stop) => (
-                <Card key={stop.id} className="bg-secondary/50">
-                  <CardContent className="p-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-card rounded-lg flex items-center justify-center">
-                        {stop.type === 'metro' ? (
-                          <Car className="w-5 h-5 text-foreground" />
-                        ) : (
-                          <Bus className="w-5 h-5 text-foreground" />
-                        )}
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-medium text-sm text-foreground">{stop.name}</p>
-                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                          <MapPin className="w-3 h-3" />
-                          <span>{stop.distance}</span>
-                          <Clock className="w-3 h-3 ml-2" />
-                          <span>{stop.time} caminando</span>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+          </div>
+          <div className="absolute top-8 left-[50%]">
+            <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center shadow-lg">
+              <Car className="w-3 h-3 text-primary-foreground" />
+            </div>
+          </div>
+          <div className="absolute top-6 left-[75%]">
+            <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center shadow-lg">
+              <Bus className="w-3 h-3 text-accent-foreground" />
             </div>
           </div>
         </div>
-      )}
-
-      {/* Botón flotante para mostrar paradas */}
-      {!showStops && (
-        <Button
-          className="fixed bottom-24 left-1/2 -translate-x-1/2"
-          onClick={() => setShowStops(true)}
-        >
-          <MapPin className="w-4 h-4 mr-2" />
-          Ver paradas cercanas
-        </Button>
-      )}
+        
+        <div className="p-4">
+          <h2 className="font-semibold text-foreground mb-3">Paradas cercanas</h2>
+          <div className="space-y-2">
+            {nearbyStops.map((stop) => (
+              <Card key={stop.id} className="bg-secondary/50">
+                <CardContent className="p-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-card rounded-lg flex items-center justify-center">
+                      {stop.type === 'metro' ? (
+                        <Car className="w-5 h-5 text-foreground" />
+                      ) : (
+                        <Bus className="w-5 h-5 text-foreground" />
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium text-sm text-foreground">{stop.name}</p>
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <MapPin className="w-3 h-3" />
+                        <span>{stop.distance}</span>
+                        <Clock className="w-3 h-3 ml-2" />
+                        <span>{stop.time} caminando</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

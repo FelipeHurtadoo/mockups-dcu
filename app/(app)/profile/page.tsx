@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { mockUser, mockDrivers, Driver } from '@/lib/mock-data'
+import { mockDrivers, Driver } from '@/lib/mock-data'
 import { useAuth } from '@/lib/auth-context'
 import { 
   User,
@@ -32,13 +32,7 @@ const menuItems = [
 
 export default function ProfilePage() {
   const router = useRouter()
-  const { logout } = useAuth()
-
-  const [userData, setUserData] = useState({
-    name: mockUser.name,
-    email: mockUser.email,
-    phone: mockUser.phone,
-  })
+  const { user, logout, updateUser } = useAuth()
 
   const [favoriteDrivers, setFavoriteDrivers] = useState<Driver[]>(
     mockDrivers.filter(d => d.isFavorite)
@@ -69,10 +63,7 @@ export default function ProfilePage() {
 
   const saveEdit = () => {
     if (editingField) {
-      setUserData(prev => ({
-        ...prev,
-        [editingField]: editValue
-      }))
+      updateUser({ [editingField]: editValue })
       setEditingField(null)
       setEditValue('')
     }
@@ -113,15 +104,15 @@ export default function ProfilePage() {
         <div className="flex items-center gap-4">
           <div className="relative">
             <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center text-2xl font-bold text-foreground">
-              {userData.name.charAt(0)}
+              {user?.name.charAt(0) || 'U'}
             </div>
             <button className="absolute bottom-0 right-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow">
               <Edit className="w-4 h-4 text-primary-foreground" />
             </button>
           </div>
           <div>
-            <h1 className="text-xl font-bold text-foreground">{userData.name}</h1>
-            <p className="text-sm text-muted-foreground">{userData.email}</p>
+            <h1 className="text-xl font-bold text-foreground">{user?.name || 'Usuario'}</h1>
+            <p className="text-sm text-muted-foreground">{user?.email || ''}</p>
           </div>
         </div>
       </div>
@@ -243,34 +234,34 @@ export default function ProfilePage() {
           <CardContent className="p-0 divide-y divide-border">
             <button 
               className="flex items-center gap-4 p-4 w-full hover:bg-secondary/50 transition-colors"
-              onClick={() => startEditing('name', userData.name)}
+              onClick={() => startEditing('name', user?.name || '')}
             >
               <User className="w-5 h-5 text-muted-foreground" />
               <div className="flex-1 text-left">
                 <p className="text-sm text-muted-foreground">Nombre</p>
-                <p className="font-medium text-foreground">{userData.name}</p>
+                <p className="font-medium text-foreground">{user?.name || 'Sin nombre'}</p>
               </div>
               <Edit className="w-4 h-4 text-muted-foreground" />
             </button>
             <button 
               className="flex items-center gap-4 p-4 w-full hover:bg-secondary/50 transition-colors"
-              onClick={() => startEditing('email', userData.email)}
+              onClick={() => startEditing('email', user?.email || '')}
             >
               <Mail className="w-5 h-5 text-muted-foreground" />
               <div className="flex-1 text-left">
                 <p className="text-sm text-muted-foreground">Correo electrónico</p>
-                <p className="font-medium text-foreground">{userData.email}</p>
+                <p className="font-medium text-foreground">{user?.email || 'Sin correo'}</p>
               </div>
               <Edit className="w-4 h-4 text-muted-foreground" />
             </button>
             <button 
               className="flex items-center gap-4 p-4 w-full hover:bg-secondary/50 transition-colors"
-              onClick={() => startEditing('phone', userData.phone)}
+              onClick={() => startEditing('phone', user?.phone || '')}
             >
               <Phone className="w-5 h-5 text-muted-foreground" />
               <div className="flex-1 text-left">
                 <p className="text-sm text-muted-foreground">Teléfono</p>
-                <p className="font-medium text-foreground">{userData.phone}</p>
+                <p className="font-medium text-foreground">{user?.phone || 'Sin teléfono'}</p>
               </div>
               <Edit className="w-4 h-4 text-muted-foreground" />
             </button>

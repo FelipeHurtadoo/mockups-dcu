@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
-import {
+import { 
   Star,
   Heart,
   Check,
@@ -117,11 +117,12 @@ export default function CompletedTripPage() {
                     onClick={() => setRating(star)}
                     className="p-1 transition-transform hover:scale-110"
                   >
-                    <Star
-                      className={`w-10 h-10 ${star <= rating
-                        ? 'text-warning fill-warning'
-                        : 'text-border'
-                        }`}
+                    <Star 
+                      className={`w-10 h-10 ${
+                        star <= rating 
+                          ? 'text-warning fill-warning' 
+                          : 'text-border'
+                      }`} 
                     />
                   </button>
                 ))}
@@ -138,16 +139,17 @@ export default function CompletedTripPage() {
                     <button
                       key={option}
                       onClick={() => {
-                        setFeedback(prev =>
+                        setFeedback(prev => 
                           prev.includes(option)
                             ? prev.filter(f => f !== option)
                             : [...prev, option]
                         )
                       }}
-                      className={`px-3 py-1.5 text-sm rounded-full border transition-colors ${feedback.includes(option)
-                        ? 'bg-primary text-primary-foreground border-primary'
-                        : 'bg-card text-foreground border-border hover:bg-secondary'
-                        }`}
+                      className={`px-3 py-1.5 text-sm rounded-full border transition-colors ${
+                        feedback.includes(option)
+                          ? 'bg-primary text-primary-foreground border-primary'
+                          : 'bg-card text-foreground border-border hover:bg-secondary'
+                      }`}
                     >
                       {option}
                     </button>
@@ -160,8 +162,8 @@ export default function CompletedTripPage() {
 
         {/* Comentario adicional */}
         {!showComment ? (
-          <Button
-            variant="outline"
+          <Button 
+            variant="outline" 
             className="w-full mb-4 h-12"
             onClick={() => setShowComment(true)}
           >
@@ -180,8 +182,8 @@ export default function CompletedTripPage() {
                 className="resize-none"
               />
               <div className="flex gap-2 mt-3">
-                <Button
-                  variant="outline"
+                <Button 
+                  variant="outline" 
                   size="sm"
                   onClick={() => {
                     setShowComment(false)
@@ -190,7 +192,7 @@ export default function CompletedTripPage() {
                 >
                   Cancelar
                 </Button>
-                <Button
+                <Button 
                   size="sm"
                   onClick={() => setShowComment(false)}
                   disabled={!comment.trim()}
@@ -205,15 +207,15 @@ export default function CompletedTripPage() {
 
       {/* Footer */}
       <div className="mt-auto bg-card border-t border-border p-4">
-        <Button
+        <Button 
           className="w-full h-14 text-base font-semibold"
           onClick={handleSubmit}
           disabled={rating === 0}
         >
           {rating > 0 ? 'Enviar calificación' : 'Selecciona una calificación'}
         </Button>
-        <Button
-          variant="ghost"
+        <Button 
+          variant="ghost" 
           className="w-full mt-2"
           onClick={() => router.push('/home')}
         >

@@ -7,13 +7,14 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
 import { useAuth } from '@/lib/auth-context'
-import { Car, Mail, Lock, Eye, EyeOff, User, ChevronLeft } from 'lucide-react'
+import { Car, Mail, Lock, Eye, EyeOff, User, ChevronLeft, Phone } from 'lucide-react'
 
 export default function RegisterPage() {
   const router = useRouter()
   const { register } = useAuth()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -38,7 +39,7 @@ export default function RegisterPage() {
     setIsLoading(true)
 
     try {
-      const success = await register(name, email, password)
+      const success = await register(name, email, phone, password)
       if (success) {
         router.push('/home')
       } else {
@@ -121,6 +122,23 @@ export default function RegisterPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     className="pl-10 h-12"
                     required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="phone" className="text-sm font-medium text-foreground">
+                  Teléfono
+                </label>
+                <div className="relative">
+                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <Input
+                    id="phone"
+                    type="tel"
+                    placeholder="+57 300 123 4567"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="pl-10 h-12"
                   />
                 </div>
               </div>
