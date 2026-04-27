@@ -9,11 +9,11 @@ import { MapView } from '@/components/map-view'
 import { useApp } from '@/lib/app-context'
 import { useAuth } from '@/lib/auth-context'
 import { mockFrequentRoutes, mockNotifications, mockWeather } from '@/lib/mock-data'
-import { 
-  Search, 
-  MapPin, 
-  Home, 
-  Briefcase, 
+import {
+  Search,
+  MapPin,
+  Home,
+  Briefcase,
   GraduationCap,
   Cloud,
   Bell,
@@ -35,7 +35,7 @@ export default function HomePage() {
   const { user } = useAuth()
   const [destination, setDestination] = useState('')
   const [showNotifications, setShowNotifications] = useState(false)
-  
+
   const unreadNotifications = mockNotifications.filter(n => !n.read).length
 
   const handleSearch = (e: React.FormEvent) => {
@@ -60,6 +60,14 @@ export default function HomePage() {
             <p className="text-sm text-muted-foreground">Hola,</p>
             <h1 className="text-xl font-bold text-foreground">{user?.name.split(' ')[0] || 'Usuario'}</h1>
           </div>
+
+          {/* Logo centrado */}
+          <img
+            src="/images/logo.png"
+            alt="Movilidad Urbana"
+            className="w-22 h-22 rounded-xl object-cover"
+          />
+
           <div className="flex items-center gap-3">
             {/* Clima */}
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -67,7 +75,7 @@ export default function HomePage() {
               <span>{mockWeather.temperature}°C</span>
             </div>
             {/* Notificaciones */}
-            <button 
+            <button
               onClick={() => setShowNotifications(!showNotifications)}
               className="relative p-2 rounded-full hover:bg-secondary transition-colors"
             >
@@ -104,16 +112,15 @@ export default function HomePage() {
           </div>
           <div className="max-h-64 overflow-y-auto">
             {mockNotifications.map((notification) => (
-              <div 
+              <div
                 key={notification.id}
                 className={`p-3 border-b border-border last:border-0 ${!notification.read ? 'bg-primary/5' : ''}`}
               >
                 <div className="flex items-start gap-3">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    notification.type === 'traffic' ? 'bg-warning/20 text-warning' :
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${notification.type === 'traffic' ? 'bg-warning/20 text-warning' :
                     notification.type === 'delay' ? 'bg-destructive/20 text-destructive' :
-                    'bg-accent/20 text-accent'
-                  }`}>
+                      'bg-accent/20 text-accent'
+                    }`}>
                     <AlertTriangle className="w-4 h-4" />
                   </div>
                   <div className="flex-1">
@@ -131,7 +138,7 @@ export default function HomePage() {
       {/* Mapa */}
       <div className="h-[280px] relative">
         <MapView showDrivers className="h-full rounded-none" />
-        
+
         {/* Overlay con info de conductores */}
         <div className="absolute bottom-4 left-4 right-4">
           <Card className="bg-card/95 backdrop-blur">
@@ -189,8 +196,8 @@ export default function HomePage() {
 
       {/* Botón de reportar */}
       <div className="px-4 pb-6">
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           className="w-full h-12 justify-start gap-3"
           onClick={() => router.push('/report')}
         >

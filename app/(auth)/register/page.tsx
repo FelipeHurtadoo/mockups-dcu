@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
 import { useAuth } from '@/lib/auth-context'
-import { Car, Mail, Lock, Eye, EyeOff, User, ChevronLeft, Phone } from 'lucide-react'
+import { Mail, Lock, Eye, EyeOff, User, ChevronLeft, Phone } from 'lucide-react'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -56,7 +56,7 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-background flex flex-col">
       {/* Botón volver */}
       <div className="px-4 pt-4">
-        <button 
+        <button
           onClick={() => router.push('/')}
           className="p-2 -ml-2 hover:bg-secondary rounded-lg transition-colors"
         >
@@ -67,9 +67,11 @@ export default function RegisterPage() {
       {/* Header */}
       <div className="flex items-center justify-center pt-4 pb-8">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
-            <Car className="w-7 h-7 text-primary-foreground" />
-          </div>
+          <img
+            src="/images/logo.png"
+            alt="Movilidad Urbana Logo"
+            className="w-20 h-20 rounded-xl object-cover"
+          />
           <span className="text-2xl font-bold text-foreground">Movilidad Urbana</span>
         </div>
       </div>
